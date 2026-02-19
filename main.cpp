@@ -20,7 +20,7 @@ int main() {
         string name;
     };
 
-    // Dyanmically init recipe array
+    // Dyanmically init recipe book
     recipe* recipe_book = new recipe[SIZE];
 
     // Enter each recipe
@@ -30,25 +30,39 @@ int main() {
 
         cout << "Input recipe cook time in minutes: ";
         cin >> recipe_book[i].cook_time;
+        // While loops to validate inputs
+        while (recipe_book[i].cook_time <= 0) {
+            cout << "Invalid cook time, try again: ";
+            cin >> recipe_book[i].cook_time;
+        }
 
         cout << "Input recipe rating out of 5: ";
         cin >> recipe_book[i].rating;
+        while (recipe_book[i].rating < 0 || recipe_book[i].rating > 5) {
+            cout << "Invalid rating, try again: ";
+            cin >> recipe_book[i].rating;
+        }
 
         cout << "Input number of ingredients: ";
-        int count;
-        cin >> count;
+        cin >> recipe_book[i].num_ingredients;
+        while (recipe_book[i].num_ingredients <= 0) {
+            cout << "Invalid ingredient count, try again: ";
+            cin >> recipe_book[i].num_ingredients;
+        }
 
-        recipe_book[i].num_ingredients = count;
+        // Dynamically init ingredients list in the recipe
+        recipe_book[i].ingredients = new string[recipe_book[i].num_ingredients];
 
-        recipe_book[i].ingredients = new string[count];
-
+        // Ignore leftover newline
+        // Input each ingredient
         cin.ignore();
-        for (int j = 0; j < count; j++) {
-            cout << "Input ingredient No. " << j + 1 << ": ";
+        for (int j = 0; j < recipe_book[i].num_ingredients; j++) {
+            cout << "Input ingredient No. " << j + 1 << ": "; 
             getline(cin, recipe_book[i].ingredients[j]);
         }
     }
 
+    // Linear search to find max rating and min cook time
     int max_rating = 0;
     int min_cook = 0;
     for (int i = 0; i < SIZE; i++) {
@@ -60,7 +74,7 @@ int main() {
         }
     }
 
-
+    // Output highest rated dish, including full recipe list
     cout << endl;
     cout << "===== Highest Rated Dish =====" << endl;
     cout << "Name: " << recipe_book[max_rating].name << endl;
@@ -72,6 +86,7 @@ int main() {
 
     cout << endl << endl;
     
+    // Output lowest time dish, including full recipe list
     cout << "===== Fastest Dish =====" << endl;
     cout << "Name: " << recipe_book[min_cook].name << endl;
     cout << "Rating: " << recipe_book[min_cook].rating << endl;
@@ -82,7 +97,7 @@ int main() {
 
     cout << endl;
     
-
+    // Clean up memory
     for (int i = 0; i < SIZE; i++) {
         delete[] recipe_book[i].ingredients;
     }
