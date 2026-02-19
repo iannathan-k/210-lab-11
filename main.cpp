@@ -31,8 +31,39 @@ int main() {
         cout << "Input recipe rating out of 5: ";
         cin >> recipe_book[i].rating;
 
-        for (int i = 0;)
+        cout << "Input number of ingredients: ";
+        int count;
+        cin >> count;
+
+        recipe_book[i].ingredients = new string[count];
+        string* temp_ptr = recipe_book[i].ingredients;
+
+        for (int j = 0; j < count; j++) {
+            cout << "Input ingredient No. " << j << ": ";
+            getline(cin, temp_ptr[i]);
+        }
     }
+
+    int max_rating = 0;
+    int min_cook;
+    for (int i = 0; i < SIZE; i++) {
+        if (recipe_book[i].cook_time < recipe_book[min_cook].cook_time) {
+            min_cook = i;
+        }
+        if (recipe_book[i].rating > recipe_book[max_rating].rating) {
+            max_rating = i;
+        }
+    }
+
+    cout << "Highest Rated Dish";
+    cout << recipe_book[max_rating].name;
+    cout << recipe_book[max_rating].rating;
+    cout << recipe_book[max_rating].cook_time;
+    
+    cout << "Fastest Dish";
+    cout << recipe_book[min_cook].name;
+    cout << recipe_book[min_cook].rating;
+    cout << recipe_book[min_cook].cook_time;
 
     return 0;
 }
